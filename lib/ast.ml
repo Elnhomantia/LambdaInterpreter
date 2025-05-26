@@ -103,9 +103,7 @@ let rec loAll (t:term) =
   |App(t1, t2) -> (*outer left*)
     match t1.node with
     |Lambda l ->
-      let t2_inc = increment 1 0 t2 in (*Increment so it doesn't collide*)
-      let l_sub = substitue l t2_inc 0 in (*We replace*)
-      increment (-1) 0 l_sub (*We removed a lambda, so -1*)
+      substitue l t2 0
     |_ ->
       let t1' = loAll t1 in
       if t1' != t1 then sApp t1' t2
@@ -134,9 +132,7 @@ let rec riAll (t:term) =
       else
         match t1.node with (*Then we can reduce if possible*)
         |Lambda l -> 
-          let t2_inc = increment 1 0 t2 in (*Increment so it doesn't collide*)
-          let l_sub = substitue l t2_inc 0 in (*We replace*)
-          increment (-1) 0 l_sub (*We removed a lambda, so -1*)
+          substitue l t2 0
         |_ -> t
 
 (** TODO
@@ -149,9 +145,7 @@ let rec loExcl (t:term) =
   |App(t1, t2) -> (*outer left*)
     match t1.node with
     |Lambda l ->
-      let t2_inc = increment 1 0 t2 in (*Increment so it doesn't collide*)
-      let l_sub = substitue l t2_inc 0 in (*We replace*)
-      increment (-1) 0 l_sub (*We removed a lambda, so -1*)
+      substitue l t2 0
     |_ ->
       let t1' = loExcl t1 in
       if t1' != t1 then sApp t1' t2
@@ -176,9 +170,7 @@ let riExcl (t:term) =
       else
         match t1.node with (*Then we can reduce if possible*)
         |Lambda l -> 
-          let t2_inc = increment 1 0 t2 in (*Increment so it doesn't collide*)
-          let l_sub = substitue l t2_inc 0 in (*We replace*)
-          increment (-1) 0 l_sub (*We removed a lambda, so -1*)
+          substitue l t2 0
         |_ -> t
 
 (**

@@ -10,11 +10,12 @@
 %token OPAR CPAR DOT
 %token ENDCOM EOF (*ENDCOM = '\n' or ';'*)
 
-%start <console> main
+%start <console list> main
 %%
 
 main:
-| stat ENDCOM EOF? { $1 }
+| stat ENDCOM EOF { [$1] }
+| stat ENDCOM main { $1 :: $3 }
 
 stat:
 | command { T($1) }

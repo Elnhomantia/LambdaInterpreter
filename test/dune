@@ -1,3 +1,7 @@
 (test
  (name test_loAll)
  (libraries ounit2 interpreterLambdaBruijn))
+ 
+ (test
+ (name test_app_vars)
+ (libraries ounit2 interpreterLambdaBruijn))
