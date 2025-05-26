@@ -2,11 +2,11 @@ module Hcons = struct
 
   type 'a hconsType = {node: 'a; id: int};;
 
-  type terme = termeNode hconsType
-  and termeNode = Var of int | Lambda of terme | App of terme * terme;;
+  type term = termNode hconsType
+  and termNode = Var of int | Lambda of term | App of term * term;;
 
   module TermNodeHash = struct
-    type t = termeNode
+    type t = termNode
     let equal x y = x = y
     let hash = Hashtbl.hash
   end

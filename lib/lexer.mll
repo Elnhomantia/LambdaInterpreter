@@ -6,7 +6,7 @@ let _string = ['a'-'z''A'-'Z']+
 let _int = ['0'-'9']+
 
 rule token = parse
-  | [' ' '\t' '\n'] { token lexbuf }
+  | [' ' '\t'] { token lexbuf }
   | "next" { NEXT }
   | "all-next" { ALL_NEXT }
   | "normalise" { NORMALISE }
@@ -23,6 +23,6 @@ rule token = parse
   | '.' { DOT }
   | _int { UNVAR (int_of_string(Lexing.lexeme lexbuf)) }
   | _string { NVAR (Lexing.lexeme lexbuf) }
-  | ';' { ENDCOM }  
+  | [';' '\n'] { ENDCOM }  
   | eof { EOF }
   | _ { failwith ("Unexpected token: " ^ Lexing.lexeme lexbuf) }

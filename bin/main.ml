@@ -1,11 +1,12 @@
 open InterpreterLambdaBruijn
 
-let rec printlist (cmdl:Ast.termList)=
-  match cmdl with
-  | Ast.Node (h, t) -> Printf.printf "%s\n" (Ast.string_of_terme h) ; printlist t
-  | Ast.Empty -> ()
+let console_to_string (cmd:Ast.console)=
+match cmd with
+|T t -> Ast.string_of_terme t
+|U _ -> ""
 
-let () =
+  
+let rec prompt() =
   let lexbuf =
     if Array.length Sys.argv > 1 then
       let file = Filename.concat (Sys.getcwd ()) Sys.argv.(1) in
@@ -15,10 +16,12 @@ let () =
       Lexing.from_channel stdin
   in
   try
-    let cmdl = Parser.main Lexer.token lexbuf in
-    printlist cmdl
+    let cmd = Parser.main Lexer.token lexbuf in
+    Printf.printf "%s\n" (console_to_string cmd); prompt()
   with
   | Parser.Error ->
       Printf.eprintf "Parser error\n"
   | exn ->
       Printf.eprintf "Unexpected error: %s\n" (Printexc.to_string exn)
+
+let () = prompt()
